@@ -20,13 +20,13 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from main_page.views import IndexView, book_detail, AddBookView, del_book
+from main_page.views import IndexView, BookDetailView, AddBookView, del_book
 
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
-    path('<int:book_id>/', book_detail, name='book_go'),
+    path('<int:book_id>/', BookDetailView.as_view(), name='book_go'),
     path('add_book/', AddBookView.as_view(), name='add_book'),
     path('<int:book_id>/delete/', del_book, name='del_book'),    
 ]

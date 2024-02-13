@@ -1,9 +1,9 @@
 from typing import Any
 from django.http.response import HttpResponse as HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
+from django.views.generic import View
 from django.views.generic.base import TemplateView
-from django.views.generic.detail import DetailView
 from main_page.models import BookModel
 
 from main_page.forms import BookForm
@@ -27,9 +27,8 @@ class IndexView(ListView):
         return context
 
 
-
-def book_detail(request, book_id=None):
-    if request.method == 'GET':
+class BookDetailView(View):
+    def get(self, request, book_id=None):
         if book_id:
             book_get = BookModel.objects.get(id=book_id)
 
@@ -43,20 +42,16 @@ def book_detail(request, book_id=None):
             }
 
         return render(request, 'main_page/book_go.html', context)
-    else:
-        if request.method == 'POST':
-            form = BookForm(request.POST, request.FILES)
-            if form.is_valid():
-                book = BookModel.objects.get(id=book_id)
-                book_data = form.cleaned_data
-                book.book_name = book_data['book_name']
-                book.book_author = book_data['book_author']
-                book.book_img = book_data['book_img']
-                book.save()
-                return HttpResponseRedirect(reverse_lazy('index'))
-            else:
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+    def post(self, request, book_id=None):
+        if book_id:
+            book = BookModel.objects.get(id=book_id)
+            form = BookForm(request.POST, request.FILES, instance=book)
+            if form.is_valid():
+                form.save()
+                return redirect('index')
+            else:
+                return redirect(request.META.get('HTTP_REFERER'))
 
 class AddBookView(TemplateView):
     template_name = 'main_page/add_book.html'
