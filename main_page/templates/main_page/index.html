@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+
+    <div class="nav_bar">
+        <h1>Прочитанные книги</h1>
+        <a href="/add_book" class="add_book"><h2>Добавить книгу</h2></a>
+    </div>
+
+
+    <div class="book_container">
+        {% for book in book_list %}
+            <div class="book-card">
+                <a href="{% url "book_go" book.id %}">
+                    <div>
+                        <img class="book-image" src="{{ book.book_img.url }}" alt="Cant load image">
+                        <h2>{{ book.book_name }}</h2>
+                        <p>{{ book.book_author}}</p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+   
+    </div>
+    
+
+
+</body>
+</html>

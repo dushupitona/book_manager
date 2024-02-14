@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/book_go_style.css' %}">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+    <div class='main'>
+
+        <div class="book-card">
+                <div class="card_data">
+                    <div class="img-container">
+                        <img class="book-image" src="{{ book_image }}" alt="Cant load image">
+                    </div>
+                    <h2>{{ book_name }}</h2>
+                    <p>{{ book_author}}</p>
+                </div>
+
+                <div class="buttons">
+                    <a href="{% url "del_book" book_id  %}">
+                    <button type="button" class="btn-hover color-11">Удалить</button>
+                    </a>
+                </div>
+
+        </div>
+
+        <div class='book_form'>
+            <h2>Изменить</h2>
+            <form action="{% url "book_go" book_id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                {{ form.book_name }}
+        
+                {{ form.book_author }}
+
+                {{ form.book_img }}
+        
+                <button type="submit" class="btn-hover color-9">Сохранить</button>
+            </form> 
+        </div>
+    </div>
+    
+
+    
+
+
+</body>
+</html>

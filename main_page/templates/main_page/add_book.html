@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/add_book_style.css' %}">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <form action="{% url "add_book" %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            {{ form.book_name }}
+    
+            {{ form.book_author }}
+
+            {{ form.book_img }}
+    
+            <button type="submit" class="btn-hover color-9">Сохранить</button>
+    </form>
+</body>
+</html>
